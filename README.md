@@ -6,14 +6,23 @@ Health monitoring for epidemic prediction using machine learning involves levera
 
 
 PROBLEM FORMULATION: Predicting infection likelihood based on individual characteristics like symptoms, age, and geographical location.
+
 DATA COLLECTION: Develop a data collection process for initial testing, gathering information on symptoms, age, and location, and simulate this process using a representative dataset.
+
 FEATURE ENGINEERING: Implement feature engineering to enhance the predictive capabilities of the dataset by creating interaction terms between symptoms.
+
 INITIAL DATA GENERATION: The dataset should include features like symptoms, age, location, and infection status, ensuring a diverse range of scenarios for robust model training.
+
 HANDLE MISSING DATA: The study aims to resolve missing data issues by combining one-hot encoding for categorical features and imputation for missing age values using the mean.
+
 MODEL SELECTION: Select a suitable machine learning model for classification tasks, such as RandomForestClassifier, suited for handling complex data relationships.
+
 TRAINING THE MODEL: Set up a training pipeline that combines feature preprocessing and model training. Utilize techniques like one-hot encoding and imputation within the pipeline for consistent handling of missing values.
+
 CONTINUOUS MONITORING LOOP: Create a continuous monitoring loop to simulate real-time prediction. Fetch new data at regular intervals, combine it with existing data, and perform feature engineering to ensure model consistency.
+
 MONITORING FREQUENCY: Adjust the frequency of the monitoring loop based on the specific requirements of the health monitoring system.
+
 PREDICTION AND ANALYSIS: The trained model is utilized for timely predictions on new data points, enabling proactive decision-making in response to potential outbreaks through a continuous monitoring loop.
 
 <img width="812" alt="image" src="https://github.com/urmimirani/Epidemic-Health-Monitoring-using-RandomForestClassifier/assets/120623760/4a999773-ad70-45ea-a429-8c6095ea63f4">
