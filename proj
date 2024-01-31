@@ -1,0 +1,80 @@
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.impute import SimpleImputer
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
+import numpy as np
+import time
+
+# Simulate fetching new data 
+def fetch_new_data():
+    # Simulate new data retrieval
+    new_data_point = {
+        'Symptom1': [1],
+        'Symptom2': [0],
+        'Age': [30],
+        'Geographical_Location': ['A']
+    }
+
+    return pd.DataFrame(new_data_point)
+
+# Feature engineering
+def feature_engineering(data):
+    # Add new feature for interaction
+    data['Interaction_Symptoms'] = data['Symptom1'] * data['Symptom2']
+    return data
+
+# Simulate initial data
+data = {
+    'Symptom1': [1, 0, 1, 0, 1, 0, 1, 0, 1, 0],
+    'Symptom2': [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+    'Age': [25, 30, 22, 35, 28, 40, 20, 45, 18, 50],
+    'Geographical_Location': ['A', 'B', 'A', 'C', 'B', 'C', 'A', 'C', 'B', 'A'],
+    'Infected': [1, 0, 1, 0, 1, 0, 1, 0, 1, 0]
+}
+
+df = pd.DataFrame(data)
+
+# Drop rows with missing val
+df = df.dropna(subset=['Infected'])
+
+model = RandomForestClassifier()
+
+# pipeline for preprocessing
+preprocessing_pipeline = ColumnTransformer(
+    transformers=[
+        ('categorical', OneHotEncoder(drop='first', sparse=False), ['Geographical_Location']),
+        ('impute', SimpleImputer(strategy='mean'), ['Age'])
+    ],
+    remainder='passthrough'
+)
+
+# Combine preprocessing with model training
+pipeline = Pipeline([
+    ('preprocessing', preprocessing_pipeline),
+    ('model', model)
+])
+
+# Train model
+pipeline.fit(df.drop('Infected', axis=1), df['Infected'])
+
+# Continuous monitoring loop
+while True:
+    new_data = fetch_new_data()
+
+    # Concatenate new data with existing data
+    df = pd.concat([df, new_data], ignore_index=True)
+
+    df = feature_engineering(df)
+
+    #drop the target variable for the new data point before imputation
+    new_data_imputed = df.tail(1).copy()
+    new_data_imputed['Infected'] = -1  # Placeholder value for the target variable
+
+    prediction = pipeline.predict(new_data_imputed.drop('Infected', axis=1))
+
+    print("Latest Prediction:", prediction[0])
+
+    time.sleep(60)  
+
