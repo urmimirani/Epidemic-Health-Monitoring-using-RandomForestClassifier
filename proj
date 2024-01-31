@@ -78,3 +78,5 @@ while True:
 
     time.sleep(60)  
 
+#0: The model predicts that the individual is not infected.
+#1: The model predicts that the individual is infected.
